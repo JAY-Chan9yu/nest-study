@@ -3,17 +3,16 @@ import {
   Controller,
   Delete,
   Get,
-  NotFoundException,
   Param,
   Patch,
   Post,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { isEmpty, isNotEmpty } from 'class-validator';
 import { Board, BoardStatus } from './boards.models';
 import { BoardsService } from './boards.service';
 import { createBoardDto } from './dto/create-board.dto';
+import { BoardStatusValdationPipe } from './pipes/board-status-valdiation.pipe';
 
 @Controller('boards')
 export class BoardsController {
@@ -27,11 +26,7 @@ export class BoardsController {
 
   @Get('/:id')
   getBoardById(@Param('id') id: string): Board {
-    const board = this.boadsService.getBoardById(id);
-    if (!board) {
-      throw new NotFoundException(`Can not find Board with id ${id}`);
-    }
-    return board;
+    return this.boadsService.getBoardById(id);
   }
 
   @Delete('/:id')
@@ -46,7 +41,10 @@ export class BoardsController {
   }
 
   @Patch('/:id/status')
-  updateeBoard(@Param('id') id: string, @Body('stuats') status: BoardStatus) {
+  updateeBoard(
+    @Param('id') id: string,
+    @Body('status', BoardStatusValdationPipe) status: BoardStatus,
+  ) {
     return this.boadsService.updateBoardStatus(id, status);
   }
 }
