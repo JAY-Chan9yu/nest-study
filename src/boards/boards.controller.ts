@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
   Patch,
   Post,
@@ -26,7 +27,11 @@ export class BoardsController {
 
   @Get('/:id')
   getBoardById(@Param('id') id: string): Board {
-    return this.boadsService.getBoardById(id);
+    const board = this.boadsService.getBoardById(id);
+    if (!board) {
+      throw new NotFoundException(`Can not find Board with id ${id}`);
+    }
+    return board;
   }
 
   @Delete('/:id')
@@ -35,7 +40,7 @@ export class BoardsController {
   }
 
   @Post('/')
-  @UsePipes(ValidationPipe)
+  @UsePipes(ValidationPipe) // 유효성 체크
   createBoard(@Body() createBoard: createBoardDto): Board {
     return this.boadsService.createBoard(createBoard);
   }
