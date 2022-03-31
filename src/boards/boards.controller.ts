@@ -1,4 +1,15 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
+import { isEmpty, isNotEmpty } from 'class-validator';
 import { Board, BoardStatus } from './boards.models';
 import { BoardsService } from './boards.service';
 import { createBoardDto } from './dto/create-board.dto';
@@ -7,6 +18,7 @@ import { createBoardDto } from './dto/create-board.dto';
 export class BoardsController {
   constructor(private boadsService: BoardsService) {}
 
+  // Controller 클래스 내부 함수들을 Handler라고 한다.
   @Get('/')
   getAllBoards(): Board[] {
     return this.boadsService.getAllBoalds();
@@ -23,8 +35,9 @@ export class BoardsController {
   }
 
   @Post('/')
-  createBoard(@Body() createBoardDto: createBoardDto): Board {
-    return this.boadsService.createBoard(createBoardDto);
+  @UsePipes(ValidationPipe)
+  createBoard(@Body() createBoard: createBoardDto): Board {
+    return this.boadsService.createBoard(createBoard);
   }
 
   @Patch('/:id/status')

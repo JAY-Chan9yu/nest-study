@@ -2,13 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { Board, BoardStatus } from './boards.models';
 import { v1 as uuid } from 'uuid';
 import { createBoardDto } from './dto/create-board.dto';
-import { Board } from '../../dist/boards/boards.models';
 
 @Injectable()
 export class BoardsService {
   private boards: Board[] = [];
 
-  // 서비스 클래스 내부 함수들을 Handler라고 한다.
   getAllBoalds(): Board[] {
     return this.boards;
   }
