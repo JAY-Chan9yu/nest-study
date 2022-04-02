@@ -5,13 +5,16 @@ import {
   Get,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { BoardStatus } from './board-status.enum';
 import { Board } from './board.entity';
 import { BoardsService } from './boards.service';
 import { CreateBoardDto } from './dto/create-board.dto';
+import { BoardStatusValdationPipe } from './pipes/board-status-valdiation.pipe';
 
 @Controller('boards')
 export class BoardsController {
@@ -36,5 +39,13 @@ export class BoardsController {
   @UsePipes(ValidationPipe) // 유효성 체크
   createBoard(@Body() createBoard: CreateBoardDto): Promise<Board> {
     return this.boadsService.createBoard(createBoard);
+  }
+
+  @Patch('/:id/status')
+  updateBoardStatus(
+    @Param('id') id: number,
+    @Body('status', BoardStatusValdationPipe) status: BoardStatus,
+  ) {
+    this.boadsService.updateBoard(id, status);
   }
 }

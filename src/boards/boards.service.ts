@@ -39,4 +39,10 @@ export class BoardsService {
       throw new NotFoundException('Board not found(no delete)');
     }
   }
+
+  async updateBoard(id: number, stauts: BoardStatus) {
+    const found = await this.getBoardById(id);
+    found.status = stauts;
+    await this.boardRepository.save(found);
+  }
 }
