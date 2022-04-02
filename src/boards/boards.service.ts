@@ -32,4 +32,11 @@ export class BoardsService {
   async createBoard(createBoardDto: CreateBoardDto): Promise<Board> {
     return await this.boardRepository.createBoard(createBoardDto);
   }
+
+  async deleteBoard(id: number) {
+    const result = await this.boardRepository.delete(id);
+    if (result.affected === 0) {
+      throw new NotFoundException('Board not found(no delete)');
+    }
+  }
 }

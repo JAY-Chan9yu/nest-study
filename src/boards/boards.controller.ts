@@ -1,8 +1,10 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
+  ParseIntPipe,
   Post,
   UsePipes,
   ValidationPipe,
@@ -16,8 +18,13 @@ export class BoardsController {
   constructor(private boadsService: BoardsService) {}
 
   @Get('/:id')
-  getBoardById(@Param('id') id: number): Promise<Board> {
+  getBoardById(@Param('id', ParseIntPipe) id: number): Promise<Board> {
     return this.boadsService.getBoardById(id);
+  }
+
+  @Delete('/:id')
+  deleteBoardById(@Param('id', ParseIntPipe) id: number) {
+    return this.boadsService.deleteBoard(id);
   }
 
   @Get('/')
