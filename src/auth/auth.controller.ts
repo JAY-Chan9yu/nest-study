@@ -1,6 +1,8 @@
 import {
   Body,
+  Catch,
   Controller,
+  HttpException,
   Post,
   UsePipes,
   ValidationPipe,
@@ -9,6 +11,7 @@ import { AuthService } from './auth.service';
 import { AuthCredentialDto } from './dto/auth-credential.dto';
 
 @Controller('auth')
+@Catch(HttpException)
 export class AuthController {
   constructor(private authService: AuthService) {}
 
