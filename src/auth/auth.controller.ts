@@ -12,6 +12,7 @@ import {
 import { AuthService } from './auth.service';
 import { AuthCredentialDto } from './dto/auth-credential.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { GetUser } from './deps/get-user.deps';
 
 @Controller('auth')
 @Catch(HttpException)
@@ -34,7 +35,7 @@ export class AuthController {
 
   @Post('/test')
   @UseGuards(AuthGuard())
-  authTest(@Req() request) {
-    console.log(request);
+  authTest(@GetUser() user) {
+    console.log(user);
   }
 }
