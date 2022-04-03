@@ -20,4 +20,10 @@ export class AuthController {
   signUp(@Body() authCredentialDto: AuthCredentialDto) {
     return this.authService.signUp(authCredentialDto);
   }
+
+  @Post('/signin')
+  @UsePipes(ValidationPipe) // 유효성 체크
+  signIn(@Body() authCredentialDto: AuthCredentialDto) {
+    return this.authService.signIn(authCredentialDto);
+  }
 }
