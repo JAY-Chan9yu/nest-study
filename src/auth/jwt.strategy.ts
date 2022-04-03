@@ -5,6 +5,7 @@ import { Strategy, ExtractJwt } from 'passport-jwt';
 import { User } from './user.entity';
 import { UserRepository } from './user.repository';
 
+// AuthGuard가 실제로 실행하는 함수는 strategy의 valdiate
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
