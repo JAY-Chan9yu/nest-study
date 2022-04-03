@@ -23,7 +23,9 @@ export class AuthController {
 
   @Post('/signin')
   @UsePipes(ValidationPipe) // 유효성 체크
-  signIn(@Body() authCredentialDto: AuthCredentialDto) {
+  signIn(
+    @Body() authCredentialDto: AuthCredentialDto,
+  ): Promise<{ accessToken: string }> {
     return this.authService.signIn(authCredentialDto);
   }
 }
