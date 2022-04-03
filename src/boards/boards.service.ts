@@ -4,6 +4,7 @@ import { BoardRepository } from './board.repository';
 import { Board } from './board.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BoardStatus } from './board-status.enum';
+import { User } from 'src/auth/user.entity';
 
 @Injectable()
 export class BoardsService {
@@ -29,8 +30,17 @@ export class BoardsService {
     return found;
   }
 
-  async createBoard(createBoardDto: CreateBoardDto): Promise<Board> {
-    return await this.boardRepository.createBoard(createBoardDto);
+  async getMyAllBoards(user: User): Promise<Board[]> {
+    const query = await this.boardRepository.createQueryBuilder('board');
+    query.where('board.userId = :userId', { userId: user.id });
+    return await query.getMany();
+  }
+
+  async createBoard(
+    createBoardDto: CreateBoardDto,
+    user: User,
+  ): Promise<Board> {
+    return await this.boardRepository.createBoard(createBoardDto, user);
   }
 
   async deleteBoard(id: number) {

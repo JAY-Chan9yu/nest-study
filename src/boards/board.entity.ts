@@ -1,4 +1,11 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from 'src/auth/user.entity';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { BoardStatus } from './board-status.enum';
 
 @Entity() // 엔티티란 데이터의 집합을 의미 (저장되고 관린되어야 하는 데이터)
@@ -14,4 +21,7 @@ export class Board extends BaseEntity {
 
   @Column()
   status: BoardStatus;
+
+  @ManyToOne((type) => User, (user) => user.boards, { eager: false })
+  user: User;
 }
