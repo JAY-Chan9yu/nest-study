@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Logger,
   Param,
   ParseIntPipe,
   Patch,
@@ -23,6 +24,7 @@ import { User } from 'src/auth/user.entity';
 @Controller('boards')
 @UseGuards(AuthGuard())
 export class BoardsController {
+  private logger = new Logger('BoardController');
   constructor(private boadsService: BoardsService) {}
 
   @Get('/:id')
@@ -37,6 +39,7 @@ export class BoardsController {
 
   @Get('/')
   getAllBoard(): Promise<Board[]> {
+    this.logger.verbose(`get all boards`);
     return this.boadsService.getAllBoard();
   }
 
